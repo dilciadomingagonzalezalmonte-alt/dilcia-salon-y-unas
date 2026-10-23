@@ -1,0 +1,123 @@
+
+/* Estilos generales */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fff0f6;
+    color: #4a235a;
+}
+
+/* Encabezado */
+header {
+    background-color: #8e44ad;
+    color: white;
+    text-align: center;
+    padding: 22px;
+}
+
+header h1 {
+    margin-top: 0;
+}
+
+/* Contenedor principal */
+.contenedor {
+    display: flex;
+    min-height: 70vh;
+}
+
+/* Menú lateral */
+.menu-lateral {
+    width: 220px;
+    flex-shrink: 0;
+    background-color: #c2185b;
+    padding-top: 20px;
+}
+
+/* Enlaces del menú */
+.menu-lateral a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e573a0;
+    transition: 0.3s;
+}
+
+/* Efecto al pasar el ratón */
+.menu-lateral a:hover {
+    background-color: #d8a1ed;
+    color: #4a235a;
+    padding-left: 28px;
+}
+
+/* Efecto al pulsar */
+.menu-lateral a:active {
+    background-color: #f8bbd0;
+    color: #6a1b9a;
+}
+
+/* Contenido principal */
+.contenido {
+    flex: 1;
+    padding: 30px;
+    background-color: #fff0f6;
+}
+
+.contenido h2 {
+    color: #8e44ad;
+}
+
+/* Adaptación para celulares */
+@media (max-width: 600px) {
+    .contenedor {
+        flex-direction: column;
+    }
+
+    .menu-lateral {
+        width: 100%;
+    }
+}
+
+/* Tabla de ofertas y formulario de contactos */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: white;
+}
+
+th {
+    background-color: #8e44ad;
+    color: white;
+}
+
+th, td {
+    border: 1px solid #d8a1ed;
+    padding: 12px;
+    text-align: left;
+}
+
+input, textarea {
+    width: 100%;
+    max-width: 450px;
+    padding: 10px;
+    border: 1px solid #c2185b;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+}
+
+button {
+    background-color: #c2185b;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #8e44ad;
+}

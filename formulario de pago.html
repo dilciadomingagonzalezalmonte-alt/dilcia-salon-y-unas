@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Pago - Dilcia Salón y Uñas</title>
+    <link rel="stylesheet" href="estilo dilcia.css">
+
+    <style>
+        .formulario-pago {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 25px;
+            background: #fff0f5;
+            border: 2px solid #e8a0bf;
+            border-radius: 12px;
+            box-sizing: border-box;
+        }
+
+        .formulario-pago h2,
+        .formulario-pago h3 {
+            color: #ad1457;
+            text-align: center;
+        }
+
+        .formulario-pago label {
+            display: block;
+            margin-top: 14px;
+            font-weight: bold;
+        }
+
+        .formulario-pago input,
+        .formulario-pago select,
+        .formulario-pago textarea {
+            width: 100%;
+            padding: 11px;
+            margin-top: 6px;
+            border: 1px solid #d8a0b5;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .total-pago {
+            text-align: center;
+            padding: 15px;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            color: #ad1457;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .formulario-pago button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 18px;
+            background: #c2185b;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .formulario-pago button:hover {
+            background: #880e4f;
+        }
+
+        .volver-catalogo {
+            display: block;
+            text-align: center;
+            margin: 20px;
+            color: #ad1457;
+        }
+
+        #resultado {
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>DILCIA SALÓN Y UÑAS</h1>
+        <p>Tu belleza, nuestro arte</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="ofertas.html">Ofertas</a>
+        <a href="contacto.html">Contacto</a>
+    </nav>
+
+    <main>
+        <section class="formulario-pago">
+            <h2>Formulario de pago</h2>
+            <p>Completa tus datos para registrar tu pedido.</p>
+
+            <div class="total-pago">
+                Total del pedido:
+                <span id="total-pedido">RD$0</span>
+            </div>
+
+            <form id="formularioPago">
+
+                <h3>Datos del cliente</h3>
+
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre"
+                       required maxlength="60">
+
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" name="apellido"
+                       required maxlength="60">
+
+                <label for="correo">Correo electrónico:</label>
+                <input type="email" id="correo" name="correo"
+                       required>
+
+                <label for="telefono">Número de teléfono:</label>
+                <input type="tel" id="telefono" name="telefono"
+                       required maxlength="20"
+                       placeholder="Ej.: 809-555-1234">
+
+                <label for="direccion">Dirección de entrega:</label>
+                <textarea id="direccion" name="direccion"
+                          rows="3" required maxlength="250"></textarea>
+
+                <h3>Datos del pago</h3>
+
+                <label for="metodo">Método de pago:</label>
+                <select id="metodo" name="metodo" required>
+                    <option value="">Selecciona un método</option>
+                    <option value="Transferencia bancaria">
+                        Transferencia bancaria
+                    </option>
+                    <option value="Pago al recibir">
+                        Pago al recibir
+                    </option>
+                    <option value="Tarjeta bancaria">
+                        Tarjeta bancaria
+                    </option>
+                </select>
+
+                <p>
+                    Si seleccionas transferencia, coordina la transferencia
+                    con el salón. Si seleccionas tarjeta, este formulario
+                    es una demostración y no procesa cargos reales.
+                </p>
+
+                <button type="submit">Completar pedido</button>
+
+                <p id="resultado" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <a class="volver-catalogo" href="catalogo.html">
+            Volver al catálogo
+        </a>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Dilcia Salón y Uñas</p>
+        <p>Gracias por elegirnos para realzar tu belleza.</p>
+    </footer>
+
+    <script>
+        const totalGuardado = Number(
+            localStorage.getItem("totalCompra") || 0
+        );
+
+        const formatoPrecio = precio =>
+            "RD$" + precio.toLocaleString("es-DO");
+
+        document.getElementById("total-pedido").textContent =
+            formatoPrecio(totalGuardado);
+
+        document.getElementById("formularioPago")
+            .addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                const resultado = document.getElementById("resultado");
+
+                if (totalGuardado <= 0) {
+                    resultado.textContent =
+                        "No hay un pedido pendiente. Regresa al catálogo y añade un diseño.";
+                    return;
+                }
+
+                const pedidos = JSON.parse(
+                    localStorage.getItem("pedidosDilcia") || "[]"
+                );
+
+                if (pedidos.length === 0) {
+                    resultado.textContent =
+                        "No se encontraron los productos del pedido. Regresa al catálogo.";
+                    return;
+                }
+
+                const cliente = {
+                    nombre: document.getElementById("nombre").value.trim(),
+                    apellido: document.getElementById("apellido").value.trim(),
+                    correo: document.getElementById("correo").value.trim(),
+                    telefono: document.getElementById("telefono").value.trim(),
+                    direccion: document.getElementById("direccion").value.trim(),
+                    metodo: document.getElementById("metodo").value,
+                    total: totalGuardado,
+                    pedidos: pedidos
+                };
+
+                // Demostración: registrar el pedido en este navegador.
+                // No realiza pagos reales ni envía los datos a un servidor.
+                resultado.textContent =
+                    "¡Pedido registrado correctamente! Total: " +
+                    formatoPrecio(cliente.total) +
+                    ". Este registro es una demostración local.";
+
+                console.log("Pedido de demostración:", cliente);
+
+                this.reset();
+            });
+    </script>
+
+</body>
+</html>
